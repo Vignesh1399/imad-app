@@ -13,41 +13,7 @@ var config={
 
 var app = express();
 app.use(morgan('combined'));
-var articles={
- "article-one":{
-    title:" Article one | vicky",
-    heading:"Article one",
-    date:"aug 8,2017",
-    content:`
-    <p>
-                This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.
-            </p>
-            <p>
-                This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.
-            </p>
-            <p>
-                This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.This is my content for my first article.
-            </p>`
-},
-"article-two":{
-     title:" Article two | vicky",
-    heading:"Article two",
-    date:"aug 9,2017",
-    content:`
-    <p>
-                This is my content for my second article.
-            </p>`
-},
-"article-three":{
-     title:" Article three | vicky",
-    heading:"Article three",
-    date:"aug 10,2017",
-    content:`
-    <p>
-                This is my content for my third article.
-            </p>`
-}
-};
+
 
 function createTemplate(data){
 var title=data.title;
@@ -125,7 +91,7 @@ app.get('/submit-name/',function(req,res){
 app.get('/articles/:articleName',function(req,res){
    
     
-    pool.query("SELECT * FROM article WHERE title= '" + req.params.articleName + "'",function(err,result){
+    pool.query("SELECT * FROM article WHERE title= $1",[req.params.articleName],function(err,result){
        if(err){
            res.status(500).send(err.toString());
        }
